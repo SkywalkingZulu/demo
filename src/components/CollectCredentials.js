@@ -1,10 +1,11 @@
 // Frameworks
 import React, { Component } from 'react'
-import { uport } from '../utilities/uportSetup'
-
+import { uportConnect } from '../utilities/uportSetup'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as AppActions from '../actions/AppActions'
+import { withRouter, Link } from 'react-router-dom'
+import { trafficAccidentClaim, complexClaim } from './SignClaim'
 
 import styled from 'styled-components'
 
@@ -41,6 +42,15 @@ const SubText = styled.p`
 
 const RELATIONSHIPCLAIM = 'User'
 const CERTIFICATECLAIM = 'uPort Demo'
+const Time30Days = () => Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60
+const credAReq ='credAReq'
+const credBReq ='credBReq'
+const credCReq ='credCReq'
+const credDReq ='credDReq'
+const credEReq ='credEReq'
+
+const credentialFactory = (sub, exp) => (claim) => ({sub, exp, claim})
+
 
 class CollectCredentials extends Component {
 
@@ -49,31 +59,33 @@ class CollectCredentials extends Component {
     this.credentialsbtnClickA = this.credentialsbtnClickA.bind(this)
     this.credentialsbtnClickB = this.credentialsbtnClickB.bind(this)
     this.credentialsbtnClickC = this.credentialsbtnClickC.bind(this)
+    this.credentialsbtnClickD = this.credentialsbtnClickD.bind(this)
+    this.credentialsbtnClickE = this.credentialsbtnClickE.bind(this)
+    uportConnect.onResponse(credAReq).then(res => {
+      // TODO this request doesn't close qr code??
+      console.log(res)
+    })
+    this.credentialCreate = credentialFactory (this.props.uport.did, Time30Days())
   }
 
   credentialsbtnClickA () {
-    uport.attestCredentials({
-      sub: this.props.uport.address,
-      claim: {name: this.props.uport.name},
-      exp: new Date().getTime() + 30 * 24 * 60 * 60 * 1000,  // 30 days from now
-      uriHandler: (log) => { console.log(log) }
-    })
+    uportConnect.sendVerification(this.credentialCreate({Name: this.props.uport.name}), credAReq)
   }
+
   credentialsbtnClickB () {
-    uport.attestCredentials({
-      sub: this.props.uport.address,
-      claim: {Relationship: RELATIONSHIPCLAIM},
-      exp: new Date().getTime() + 30 * 24 * 60 * 60 * 1000,  // 30 days from now
-      uriHandler: (log) => { console.log(log) }
-    })
+    uportConnect.sendVerification(this.credentialCreate({Relationship: RELATIONSHIPCLAIM}), credBReq)
   }
+
   credentialsbtnClickC () {
-    uport.attestCredentials({
-      sub: this.props.uport.address,
-      claim: {Certificate: CERTIFICATECLAIM},
-      exp: new Date().getTime() + 30 * 24 * 60 * 60 * 1000,  // 30 days from now
-      uriHandler: (log) => { console.log(log) }
-    })
+    uportConnect.sendVerification(this.credentialCreate({Certificate: CERTIFICATECLAIM}), credCReq)
+  }
+
+  credentialsbtnClickD () {
+    uportConnect.sendVerification(this.credentialCreate(complexClaim), credCReq)
+  }
+
+  credentialsbtnClickE () {
+    uportConnect.sendVerification(this.credentialCreate({trafficAccident: trafficAccidentClaim}), credCReq)
   }
 
   render (props) {
@@ -107,9 +119,29 @@ class CollectCredentials extends Component {
                   <CredsButton onClick={this.credentialsbtnClickC}>Get</CredsButton>
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <CredsLabel>Complex</CredsLabel>
+                </td>
+                <td>
+                  <CredsButton onClick={this.credentialsbtnClickD}>Get</CredsButton>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <CredsLabel>Traffic Accident</CredsLabel>
+                </td>
+                <td>
+                  <CredsButton onClick={this.credentialsbtnClickE}>Get</CredsButton>
+                </td>
+              </tr>
             </tbody>
           </CredsTable>
-          <NextButton onClick={this.props.actions.credentialsDemoComplete}>Next</NextButton>
+          <Link to="/register">
+            <NextButton onClick={this.props.actions.credentialsDemoComplete}>
+              Next
+            </NextButton>
+          </Link>
         </CredentialsArea>
         <SubText>Credentials take a moment to appear on your device.</SubText>
       </CredentialsWrap>
@@ -128,4 +160,4 @@ const mapDispatchToProps = (dispatch) => {
     actions: bindActionCreators(AppActions, dispatch)
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(CollectCredentials)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CollectCredentials))
