@@ -49,13 +49,18 @@ const credCReq ='credCReq'
 const credDReq ='credDReq'
 const credEReq ='credEReq'
 
-const credentialFactory = (sub, exp) => (claim) => ({sub, exp, claim, callbackUrl: 'https://ptsv2.com/t/j1vfh-1548094945/post'})
 
+const credentialFactory = (sub, exp) => (claim, cb) => ({sub, exp, claim, callbackUrl: cb})
 
 class CollectCredentials extends Component {
 
   constructor (props) {
     super(props)
+
+    this.state = {
+      toilet: 'https://ptsv2.com'
+    }
+
     this.credentialsbtnClickA = this.credentialsbtnClickA.bind(this)
     this.credentialsbtnClickB = this.credentialsbtnClickB.bind(this)
     this.credentialsbtnClickC = this.credentialsbtnClickC.bind(this)
@@ -65,8 +70,9 @@ class CollectCredentials extends Component {
       // TODO this request doesn't close qr code??
       console.log(res)
     })
-    this.credentialCreate = credentialFactory (this.props.uport.did, Time30Days())
-  }
+    const create = credentialFactory (this.props.uport.did, Time30Days())
+    this.credentialCreate = (claim) => { const cred = create(claim, this.state.toilet); console.log(cred); return cred }
+  } 
 
   credentialsbtnClickA () {
     uportConnect.sendVerification(this.credentialCreate({Name: this.props.uport.name}), credAReq)
@@ -137,6 +143,12 @@ class CollectCredentials extends Component {
               </tr>
             </tbody>
           </CredsTable>
+          <div>
+            <br/>
+            <emph>To test custom callbacks, create a toilet on <a href="https://ptsv2.com">ptsv2.com</a>, and add the url here: </emph>
+            <br/><br/>
+            <input value={this.state.toilet} onChange={e => this.setState({toilet: e.target.value})}/>
+          </div>
           <Link to="/register">
             <NextButton onClick={this.props.actions.credentialsDemoComplete}>
               Next
