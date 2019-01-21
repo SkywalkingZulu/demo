@@ -49,7 +49,7 @@ const credCReq ='credCReq'
 const credDReq ='credDReq'
 const credEReq ='credEReq'
 
-const credentialFactory = (sub, exp) => (claim) => ({sub, exp, claim})
+const credentialFactory = (sub, exp) => (claim) => ({sub, exp, claim, callbackUrl: 'https://ptsv2.com/t/j1vfh-1548094945/post'})
 
 
 class CollectCredentials extends Component {
