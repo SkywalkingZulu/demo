@@ -24,4 +24,5 @@ for arg in "$@"; do
   if [ *"$arg"* == "uport-transports" ]; then override uport-transports; fi;
   if [ *"$arg"* == "uport-connect" ]; then override uport-connect; fi;
   if [ *"$arg"* == "uport-credentials" ]; then override uport-credentials; fi;
+  if [ *"$arg"* == "uport-web-ui" ]; then override uport-web-ui; fi;
 done;

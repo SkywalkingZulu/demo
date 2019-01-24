@@ -7,3 +7,6 @@
 [submodule "uport-transports"]
 	path = uport-transports
 	url = git@github.com:/uport-project/uport-transports
+[submodule "uport-web-ui"]
+	path = uport-web-ui
+	url = git@github.com:/uport-project/uport-web-ui
