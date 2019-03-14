@@ -49,7 +49,7 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
-    "did-jwt": "0.0.8",
+    "did-jwt": "0.1.1",
     "ethereumjs-util": "^6.0.0",
     "kjua": "^0.1.2",
     "mnid": "^0.1.1",
@@ -61,7 +61,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^3.6.0",
     "styled-components": "^1.4.5",
-    "uport-connect": "^1.1.0-rc.5",
+    "uport-connect": "^1.1.4",
     "web3": "^0.19.1"
   },
   "scripts": {
