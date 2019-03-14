@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/demo
+    working_directory: ~/repo
     docker:
       - image: circleci/node:9.11.1
     steps:
@@ -14,7 +14,6 @@ jobs:
       - run:
           name: install-awscli-and-dependencies
           command: |
-            sudo apt-get update && sudo apt-get install awscli
             yarn --ignore-engines
             #./override.sh transports credentials connect
 
