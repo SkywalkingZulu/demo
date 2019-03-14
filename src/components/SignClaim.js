@@ -256,7 +256,7 @@ class SignClaim extends Component {
   handleSignedClaim(res) {
     console.group('Handle Signed Claim')
     console.log(res)
-    console.groupend()
+    console.groupEnd()
     verifyJWT(res.payload).then(json => {
       console.log('json', json)
       this.setState({
