@@ -18,7 +18,7 @@ const NavBar = styled.nav`
   justify-content: space-between;
   align-items: center;
 `
-const LogoLink = styled.a`
+const LogoLink = styled.span`
   color: #FFFFFF;
   text-decoration: none;
 `
@@ -48,14 +48,14 @@ const UserName = styled.span`
   margin-right: 1em;
 `
 
-const UportAvatar = styled.img`
-  display: inline-block;
-  vertical-align: middle;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  border: 2px solid white;
-`
+// const UportAvatar = styled.img`
+//   display: inline-block;
+//   vertical-align: middle;
+//   border-radius: 50%;
+//   width: 50px;
+//   height: 50px;
+//   border: 2px solid white;
+// `
 
 class AppNavbar extends Component {
 
@@ -75,7 +75,7 @@ class AppNavbar extends Component {
       <NavBar>
         <Link to="/">
         <LeftArea>
-          <LogoLink >uport</LogoLink>
+          <LogoLink>uport</LogoLink>
           <span> | </span>
           <DemoText>Demo</DemoText>
         </LeftArea>
