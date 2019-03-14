@@ -254,7 +254,9 @@ class SignClaim extends Component {
   }
 
   handleSignedClaim(res) {
+    console.group('Handle Signed Claim')
     console.log(res)
+    console.groupend()
     verifyJWT(res.payload).then(json => {
       console.log('json', json)
       this.setState({
@@ -263,7 +265,6 @@ class SignClaim extends Component {
       })
     })
     .catch(window.alert)
-
   }
 
   signClaim () {
@@ -299,15 +300,12 @@ class SignClaim extends Component {
             />}
             </JSONWrapper>
             <ClaimButton onClick={()=>{
-              this.setState({unsignedClaim: null})
               this.setState({unsignedClaim: simpleClaim})
             }}>Simple</ClaimButton>
             <ClaimButton onClick={()=>{
-              this.setState({unsignedClaim: null})
               this.setState({unsignedClaim: complexClaim})
             }}>Complex</ClaimButton>
             <ClaimButton onClick={()=>{
-              this.setState({unsignedClaim: null})
               this.setState({unsignedClaim: trafficAccidentClaim})
             }}>Too big for QR</ClaimButton>
           </div>
