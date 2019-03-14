@@ -26,6 +26,9 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               yarn deploy-production
             fi
+            if [ "${CIRCLE_BRANCH}" == "test" ]; then
+              yarn deploy-test
+            fi
 
       - save_cache:
           key: dependencies-cache-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
