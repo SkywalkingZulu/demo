@@ -9,7 +9,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - dependencies-cache-{{ checksum "package.json" }}
+            - dependencies-cache-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
 
       - run:
           name: install-awscli-and-dependencies
@@ -28,7 +28,7 @@ jobs:
             fi
 
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependencies-cache-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
 
